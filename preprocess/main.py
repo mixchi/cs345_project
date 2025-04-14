@@ -13,8 +13,12 @@ molecule = 'BrO'
 brO = loadfile.LoadFile(h5file, molecule)
 
 brOfilter = filter.BrOFilter()
-pressureMask = brOfilter.filterPressure(brO.pressure)
-print(pressureMask.shape)
+filtered = brOfilter.filterGrid(brO)
 
-l2gpMask = brOfilter.filterL2GPPrecision(brO.l2gpPrecision)
-print(l2gpMask)
+for row in range(20):
+    print(filtered[row])
+
+print(filtered.shape)
+
+# l2gpMask = brOfilter.filterL2GPPrecision(brO.l2gpPrecision)
+# print(l2gpMask)
