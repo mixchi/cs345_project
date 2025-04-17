@@ -10,6 +10,9 @@ def assignFilter(molecule):
         case 'BrO':
             return filter.BrOFilter()
 
+        case 'CH3Cl':
+            return filter.CH3ClFilter()
+
         case _:
             raise ValueError('Unknown molecule filter type specified')
 
@@ -36,9 +39,9 @@ def process(h5file, molecule):
 def main():
 
     # Testing with BrO
-    file = "sample/MLS-Aura_L2GP-BrO_v05-03-c01_2025d001.he5"
+    file = "sample/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5"
     h5file = h5py.File(file, 'r')
 
-    process(h5file, "BrO")
+    process(h5file, "CH3Cl")
 
 if __name__ == "__main__": main() 
