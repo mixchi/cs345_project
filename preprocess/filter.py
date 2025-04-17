@@ -18,6 +18,10 @@ class BrOFilter():
         mask = np.where(l2gp > self.minL2GPPrecision, 1, 0)
         return mask
 
+    def filterStatus(self, status):
+        mask = np.where(status % 2 == 0, 1, 0)
+        return mask
+
     def filterAPriori(self, apriori):
         mask = np.where(apriori >= self.minAPriori, 1, 0)
         return mask
@@ -61,6 +65,10 @@ class CH3ClFilter():
         mask = np.where(l2gp > self.minL2GPPrecision, 1, 0)
         return mask
 
+    def filterStatus(self, status):
+        mask = np.where(status == 0, 1, 0)
+        return mask
+
     def filterAPriori(self, apriori):
         mask = np.where(apriori >= self.minAPriori, 1, 0)
         return mask
@@ -80,6 +88,7 @@ class CH3ClFilter():
 
         grid = grid * self.filterPressure(h5file.pressure)
         grid = grid * self.filterL2GPPrecision(h5file.l2gpPrecision)
+        grid = grid * self.filterStatus(h5file.status)[:, None]
         grid = grid * self.filterAPriori(h5file.grid_apriori)
         grid = grid * self.filterQuality(h5file.quality)[:, None]
         grid = grid * self.filterConvergence(h5file.convergence)[:, None]
