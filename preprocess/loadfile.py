@@ -22,12 +22,5 @@ class LoadFile:
 
         self.grid_apriori = np.array(h5file['HDFEOS']['SWATHS'][molecule+"-APriori"]["Data Fields"][molecule+"-APriori"])
 
-        match molecule:
-            case 'BrO':
-                screen = filter.BrOFilter()
-
-            case _:
-                print("Unknown molecule type")
-
         
         

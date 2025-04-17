@@ -4,21 +4,41 @@ import numpy as np
 import loadfile
 import filter
 
-# Testing with BrO
+# Assign filter
+def assignFilter(molecule):
+    match molecule:
+        case 'BrO':
+            return filter.BrOFilter()
 
-file = "sample/MLS-Aura_L2GP-BrO_v05-03-c01_2025d001.he5"
-h5file = h5py.File(file, 'r')
+        case _:
+            raise ValueError('Unknown molecule filter type specified')
 
-molecule = 'BrO'
-brO = loadfile.LoadFile(h5file, molecule)
+def process(h5file, molecule):
+    dataset = loadfile.LoadFile(h5file, molecule)
+    pfilter = assignFilter(molecule)
 
-brOfilter = filter.BrOFilter()
-filtered = brOfilter.filterGrid(brO)
+    filtered = pfilter.filterGrid(dataset)
 
-for row in range(20):
-    print(filtered[row])
+    for t in range(10):
+        print(dataset.time[t])
 
-print(filtered.shape)
+    print(filtered.shape, dataset.time.shape)
 
-# l2gpMask = brOfilter.filterL2GPPrecision(brO.l2gpPrecision)
-# print(l2gpMask)
+    bigtable = np.concatenate((filtered, dataset.lat[:,None]), axis=1)
+    bigtable = np.concatenate((bigtable, dataset.lon[:,None]), axis=1)
+    bigtable = np.concatenate((bigtable, dataset.time[:,None]), axis=1)
+
+    for row in range(20):
+        print(bigtable[row])
+
+    print(bigtable.shape)
+
+def main():
+
+    # Testing with BrO
+    file = "sample/MLS-Aura_L2GP-BrO_v05-03-c01_2025d001.he5"
+    h5file = h5py.File(file, 'r')
+
+    process(h5file, "BrO")
+
+if __name__ == "__main__": main() 
