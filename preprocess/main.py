@@ -67,9 +67,9 @@ def assignFilter(molecule):
         case _:
             raise ValueError('Unknown molecule filter type specified')
 
-def process(h5file, molecule):
-    dataset = loadfile.LoadFile(h5file, molecule)
-    pfilter = assignFilter(molecule)
+def process(h5file):
+    dataset = loadfile.LoadFile(h5file)
+    pfilter = assignFilter(dataset.product)
 
     filtered = pfilter.filterGrid(dataset)
 
@@ -85,6 +85,6 @@ def main():
     file = "sample/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5"
     h5file = h5py.File(file, 'r')
 
-    grid = process(h5file, "CH3Cl")
+    grid = process(h5file)
 
 if __name__ == "__main__": main() 

@@ -5,8 +5,9 @@ import filter
 
 class LoadFile:
         
-    def __init__(self, h5file, molecule):
-        self.type = molecule
+    def __init__(self, h5file):
+        molecule = np.array(h5file['HDFEOS']['SWATHS'])[0]
+        self.product = molecule
 
         self.convergence = np.array(h5file['HDFEOS']['SWATHS'][molecule]['Data Fields']['Convergence'])
         self.status = np.array(h5file['HDFEOS']['SWATHS'][molecule]['Data Fields']['Status'])
