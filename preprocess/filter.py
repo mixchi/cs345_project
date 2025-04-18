@@ -62,7 +62,7 @@ class CH3ClFilter(Filter):
         mask = np.where(status == 0, 1, 0)
         return mask
 
-class Ch3CNFilter(Filter):
+class CH3CNFilter(Filter):
     def __init__(self):
         self.minL2GPPrecision = 0
         self.statusModFilter = 1
