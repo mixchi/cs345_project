@@ -22,19 +22,11 @@ def process(h5file, molecule):
 
     filtered = pfilter.filterGrid(dataset)
 
-    for t in range(10):
-        print(dataset.time[t])
-
-    print(filtered.shape, dataset.time.shape)
-
     bigtable = np.concatenate((filtered, dataset.lat[:,None]), axis=1)
     bigtable = np.concatenate((bigtable, dataset.lon[:,None]), axis=1)
     bigtable = np.concatenate((bigtable, dataset.time[:,None]), axis=1)
 
-    for row in range(20):
-        print(bigtable[row])
-
-    print(bigtable.shape)
+    return bigtable
 
 def main():
 
@@ -42,6 +34,6 @@ def main():
     file = "sample/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5"
     h5file = h5py.File(file, 'r')
 
-    process(h5file, "CH3Cl")
+    grid = process(h5file, "CH3Cl")
 
 if __name__ == "__main__": main() 
