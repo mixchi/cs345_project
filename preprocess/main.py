@@ -1,3 +1,6 @@
+import os
+import sys
+from pathlib import Path
 import h5py
 import numpy as np
 
@@ -83,12 +86,20 @@ def saveFile(table, filename):
     np.savetxt(filename, table, delimiter=",")
 
 def main():
+    if (len(sys.argv) != 3):
+        print("Usage: "+str(sys.argv[0])+" <input file> <output directory>")
+        sys.exit(1)
 
-    # Testing with BrO
-    file = "sample/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5"
-    h5file = h5py.File(file, 'r')
+    inputFile = sys.argv[1]
+    outputDir = sys.argv[2]
+
+    outputFile = os.path.join(outputDir, os.path.basename(inputFile))+".csv"
+    print(inputFile, outputFile)
+
+    h5file = h5py.File(inputFile, 'r')
 
     grid = process(h5file)
-    saveFile(grid, "sample/output/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5.csv")
+
+    saveFile(grid, outputFile)
 
 if __name__ == "__main__": main() 
