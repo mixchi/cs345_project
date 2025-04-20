@@ -79,6 +79,9 @@ def process(h5file):
 
     return bigtable
 
+def saveFile(table, filename):
+    np.savetxt(filename, table, delimiter=",")
+
 def main():
 
     # Testing with BrO
@@ -86,5 +89,6 @@ def main():
     h5file = h5py.File(file, 'r')
 
     grid = process(h5file)
+    saveFile(grid, "sample/output/MLS-Aura_L2GP-CH3Cl_v05-03-c01_2025d001.he5.csv")
 
 if __name__ == "__main__": main() 
