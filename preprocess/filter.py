@@ -169,7 +169,7 @@ class HO2Filter(Filter):
         mask = np.ones(quality.shape)
         return mask
 
-class HOCIFilter(Filter):
+class HOClFilter(Filter):
     def __init__(self):
         self.minL2GPPrecision = 0
         self.statusModFilter = 1
