@@ -94,7 +94,7 @@ def main():
     outputDir = sys.argv[2]
 
     outputFile = os.path.join(outputDir, os.path.basename(inputFile))+".csv"
-    print(inputFile, outputFile)
+    # print(inputFile, outputFile)
 
     h5file = h5py.File(inputFile, 'r')
 
