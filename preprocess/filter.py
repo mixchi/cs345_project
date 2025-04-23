@@ -2,27 +2,28 @@ import numpy as np
 
 class Filter():
     def filterPressure(self, pressure):
-        mask = np.where(pressure >= self.minPressure, 1, 0) & np.where(pressure <= self.maxPressure, 1, 0)
+        mask = np.where(pressure >= self.minPressure, 1, np.nan) 
+        mask = mask * np.where(pressure <= self.maxPressure, 1, np.nan)
         return mask
 
     def filterL2GPPrecision(self, l2gp):
-        mask = np.where(l2gp > self.minL2GPPrecision, 1, 0)
+        mask = np.where(l2gp > self.minL2GPPrecision, 1, np.nan)
         return mask
 
     def filterStatus(self, status):
-        mask = np.where(status % 2 == 0, 1, 0)
+        mask = np.where(status % 2 == 0, 1, np.nan)
         return mask
 
     def filterAPriori(self, apriori):
-        mask = np.where(apriori >= self.minAPriori, 1, 0)
+        mask = np.where(apriori >= self.minAPriori, 1, np.nan)
         return mask
 
     def filterQuality(self, quality):
-        mask = np.where(quality > self.minQuality, 1, 0)
+        mask = np.where(quality > self.minQuality, 1, np.nan)
         return mask
 
     def filterConvergence(self, convergence):
-        mask = np.where(convergence < self.maxConvergence, 1, 0)
+        mask = np.where(convergence < self.maxConvergence, 1, np.nan)
         return mask
 
     def filterGrid(self, h5file):
@@ -59,7 +60,7 @@ class CH3ClFilter(Filter):
         self.maxConvergence = 1.05
 
     def filterStatus(self, status):
-        mask = np.where(status == 0, 1, 0)
+        mask = np.where(status == 0, 1, np.nan)
         return mask
 
 class CH3CNFilter(Filter):
@@ -73,7 +74,7 @@ class CH3CNFilter(Filter):
         self.maxConvergence = 1.05
 
     def filterStatus(self, status):
-        mask = np.where(status == 0, 1, 0)
+        mask = np.where(status == 0, 1, np.nan)
         return mask
 
 class ClOFilter(Filter):
@@ -87,7 +88,7 @@ class ClOFilter(Filter):
         self.maxConvergence = 1.05
 
     def filterStatus(self, status):
-        mask = np.where(status == 0, 1, 0)
+        mask = np.where(status == 0, 1, np.nan)
         return mask
 
 class COFilter(Filter):
@@ -151,7 +152,7 @@ class HNO3Filter(Filter):
         self.maxConvergence = 1.03
 
     def filterStatus(self, status):
-        mask = np.where(status == 0, 1, 0)
+        mask = np.where(status == 0, 1, np.nan)
         return mask
 
 class HO2Filter(Filter):
