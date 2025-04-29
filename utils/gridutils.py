@@ -3,7 +3,6 @@ import sys
 import numpy as np
 
 def checkGridSize(file):
-    # load csv
     data = np.genfromtxt(file, delimiter=',')
     print(file+"\t"+str(data.shape))
 
