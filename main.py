@@ -3,9 +3,10 @@ import sys
 from pathlib import Path
 import numpy as np
 
-from h5utils import *
+from h5utils.fileWriter import writeCSV
+from h5utils import h5file
 
-def main():
+def __init__():
     if (len(sys.argv) != 3):
         print("Usage: "+str(sys.argv[0])+" <input file> <output directory>")
         sys.exit(1)
@@ -18,6 +19,4 @@ def main():
 
     h5obj = h5file.load(inputFile)
 
-    h5obj.writeCSV(outputFile, h5obj.bigtable)
-
-if __name__ == "__main__": main() 
+    writeCSV(outputFile, h5obj.bigtable)
