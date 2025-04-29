@@ -6,7 +6,7 @@ import numpy as np
 from h5utils.fileWriter import writeCSV
 from h5utils import h5file
 
-def __init__():
+def main():
     if (len(sys.argv) != 3):
         print("Usage: "+str(sys.argv[0])+" <input file> <output directory>")
         sys.exit(1)
@@ -20,3 +20,5 @@ def __init__():
     h5obj = h5file.load(inputFile)
 
     writeCSV(outputFile, h5obj.bigtable)
+
+if __name__ == "__main__": main()
