@@ -1,0 +1,40 @@
+Rough outline for ML model
+
+**IMPORTS:
+import pandas as pd
+import numpy as np
+from sklearn.svm import LinearSVC (Assuming we use a linear SVM)
+from sklearn.preprocessing import StandardScaler (For standardizing data before training)
+from sklearn.model_selection import train_test_split 
+from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt
+
+
+**Import Data:
+X = data (columns are variables, rows are samples)
+y = label (molecule)
+
+**STANDARDIZE:
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+
+**MODEL:
+svm = LinearSVC(max_iter=5000)
+
+param_grid = {
+    'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000] 
+}
+
+grid_search = GridSearchCV(svm, param_grid, cv=5, scoring='accuracy')
+grid_search.fit(X, y)
+
+
+**ACCURACY:
+mean_scores = grid_search.cv_results_['mean_test_score']
+param_values = grid_search.param_grid['C']
+
+**PLOT:
+(Plotting accuracy as a function of possible params, eg. C in the case of SVM)
+plt.figure(figsize=(8, 5))
+plt.plot(param_values, mean_scores, marker='o')
