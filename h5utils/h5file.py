@@ -1,5 +1,5 @@
-import filter
-import loadfile
+import h5utils.filter as filter
+import h5utils.loadfile
 import numpy as np
 import h5py
 
@@ -81,5 +81,5 @@ class load():
     def __init__(self, inputFile):
         h5file = h5py.File(inputFile, 'r')
 
-        self.grids = loadfile.LoadFile(h5file)
+        self.grids = h5utils.loadfile.LoadFile(h5file)
         self.bigtable = self.process(self.grids)

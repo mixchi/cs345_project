@@ -1,7 +1,7 @@
 import numpy as np
 import h5py
 
-import filter
+import h5utils.filter
 
 class LoadFile:
         

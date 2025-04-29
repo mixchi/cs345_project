@@ -3,10 +3,7 @@ import sys
 from pathlib import Path
 import numpy as np
 
-import loadfile
-import filter
-import h5file
-import fileWriter
+from h5utils import *
 
 def main():
     if (len(sys.argv) != 3):
@@ -21,6 +18,6 @@ def main():
 
     h5obj = h5file.load(inputFile)
 
-    fileWriter.writeCSV(outputFile, h5obj.bigtable)
+    h5obj.writeCSV(outputFile, h5obj.bigtable)
 
 if __name__ == "__main__": main() 
