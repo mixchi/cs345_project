@@ -1,5 +1,67 @@
 import numpy as np
 
+def assignFilter(h5file):
+    match h5file.product:
+        case 'BrO':
+            return BrOFilter()
+
+        case 'CH3Cl':
+            return CH3ClFilter()
+
+        case 'CH3CN':
+            return CH3CNFilter()
+
+        case 'ClO':
+            return ClOFilter()
+
+        case 'CO':
+            return COFilter()
+
+        case 'GPH':
+            return GPHFilter()
+
+        case 'H2O':
+            return H2OFilter()
+
+        case 'HCl':
+            return HClFilter()
+
+        case 'HCN':
+            return HCNFilter()
+
+        case 'HNO3':
+            return HNO3Filter()
+
+        case 'HO2':
+            return HO2Filter()
+
+        case 'HOCl':
+            return HOClFilter()
+
+        case 'IWC':
+            return IWCFilter()
+
+        case 'N2O':
+            return N2OFilter()
+
+        case 'O3':
+            return O3Filter()
+
+        case 'OH':
+            return OHFilter()
+
+        case 'RHI':
+            return RHIFilter()
+
+        case 'SO2':
+            return SO2Filter()
+
+        case 'Temperature':
+            return TFilter()
+
+        case _:
+            raise ValueError('Unknown molecule filter type specified')
+
 class Filter():
     def filterPressure(self, pressure):
         mask = np.where(pressure >= self.minPressure, 1, np.nan) 
@@ -27,9 +89,9 @@ class Filter():
         return mask
 
     def filterGrid(self, h5file):
-        linearMask, layersMask = h5file.grid.shape
+        linearMask, layersMask = h5file.getGridShape()
     
-        grid = h5file.grid
+        grid = h5file.getGrid()
 
         grid = grid * self.filterPressure(h5file.pressure)
         grid = grid * self.filterL2GPPrecision(h5file.l2gpPrecision)
