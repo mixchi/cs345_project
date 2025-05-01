@@ -50,3 +50,6 @@ class h5file():
 
     def getTime(self):
         return self.time
+
+    def getPressure(self):
+        return self.pressure
