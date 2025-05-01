@@ -12,15 +12,24 @@ def __init__():
 
     fileioprocessor = h5utils.fileio()
 
+    # get all files to be processed in iterable array
     files = fileioprocessor.search(inputDir)
-    pressures = np.zeros(len(files))
+
+    # creating a array which will later store pressures from each file
+    pressures = []
     loc = 0
+
+    # process each file
     for file in files:
         h5obj = h5utils.h5file(file)
         filteredTable = h5utils.process(h5obj)
 
-        pressures = np.append(pressures, h5obj.getPressure())
+        pressures.append(h5obj.getPressure())
 
+        print(h5obj.getPressure())
         print(h5obj.getFilename(), h5obj.getGridShape(), h5obj.getMolecule())
+
+    # pressures = np.stack(pressures)
+    # print(pressures.shape)
 
 if __name__ == "__main__": __init__()
