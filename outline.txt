@@ -8,6 +8,8 @@ from sklearn.preprocessing import StandardScaler (For standardizing data before 
 from sklearn.model_selection import train_test_split 
 from sklearn.model_selection import GridSearchCV
 import matplotlib.pyplot as plt
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import accuracy_score
 
 
 **Import Data:
@@ -38,3 +40,36 @@ param_values = grid_search.param_grid['C']
 (Plotting accuracy as a function of possible params, eg. C in the case of SVM)
 plt.figure(figsize=(8, 5))
 plt.plot(param_values, mean_scores, marker='o')
+
+**Once the plot is created, take the best C value and evaluate accuracy:
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+train_accuracies = []
+test_accuracies = []
+
+for train_index, test_index in skf.split(X, y):
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    model = LinearSVC(C=1, max_iter=5000)
+    model.fit(X_train, y_train)
+
+    train_pred = model.predict(X_train)
+    test_pred = model.predict(X_test)
+
+    train_acc = accuracy_score(y_train, train_pred)
+    test_acc = accuracy_score(y_test, test_pred)
+
+    train_accuracies.append(train_acc)
+    test_accuracies.append(test_acc)
+
+print("Average Train Accuracy:", np.mean(train_accuracies))
+print("Average Test Accuracy:", np.mean(test_accuracies))
+
+
+**Plot accuracy across folds:
+plt.figure(figsize=(8, 5))
+plt.plot(range(1, 6), train_accuracies, label='Train Accuracy', marker='o')
+plt.plot(range(1, 6), test_accuracies, label='Test Accuracy', marker='s')
+plt.grid(True)
+plt.show()
