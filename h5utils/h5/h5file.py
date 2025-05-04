@@ -60,3 +60,9 @@ class h5file():
     def setProcessed(self, pressure, grid):
         self.processed_pressure = pressure
         self.processed_grid = grid
+
+    def getProcessedPressure(self):
+        return self.processed_pressure
+
+    def getProcessedGrid(self):
+        return self.processed_grid
