@@ -1,14 +1,48 @@
 import sys
+import os
 from pathlib import Path
 import numpy as np
 from collections import defaultdict
 
 import h5utils
 
-class load3D():
+class dataInitializer():
+
+    def processGrids(self, inputDir, outputDir):
+
+        fileioprocessor = h5utils.fileio()
+
+        # get all files to be processed in iterable array
+        files = fileioprocessor.search(inputDir)
+
+        # creating a array which will store h5 object from each file
+        h5files = np.empty(len(files), dtype=object)
+        loc = 0
+
+        # process each file
+        for file in files:
+            h5obj = h5utils.h5file(file)
+            filteredTable = h5utils.process(h5obj)
+
+            pressure = h5obj.getPressure()
+            grid = h5obj.getGrid()
+
+            pressureMask = h5utils.pressureMask()
+
+            rpressure, rgrid = pressureMask.reduceGrid(pressure, grid)
+            h5obj.setProcessed(rpressure, rgrid)
+            print("Processing "+str(file)+"\t"+str(rgrid.shape))
+
+            h5files[loc] = h5obj
+            loc+=1
+
+        save = os.path.join(outputDir, "h5files.npy")
+        print("Saving results to disk to "+str(save))
+        np.save(save, h5files)
+        print("Done")
+        return save
 
     def loadGrid(self, inputFile):
-
         inputnpy = inputFile
 
         X = np.load(inputnpy, allow_pickle=True)
