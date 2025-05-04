@@ -27,6 +27,9 @@ class h5file():
 
         self.grid_apriori = np.array(h5file['HDFEOS']['SWATHS'][molecule+"-APriori"]["Data Fields"][molecule+"-APriori"])
         
+        self.processed_grid = None
+        self.processed_pressure = None
+
     def getGridShape(self):
         return self.grid.shape
 
@@ -53,3 +56,13 @@ class h5file():
 
     def getPressure(self):
         return self.pressure
+
+    def setProcessed(self, pressure, grid):
+        self.processed_pressure = pressure
+        self.processed_grid = grid
+
+    def getProcessedPressure(self):
+        return self.processed_pressure
+
+    def getProcessedGrid(self):
+        return self.processed_grid
