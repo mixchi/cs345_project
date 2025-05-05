@@ -23,6 +23,7 @@ class dataInitializer():
         for file in files:
             h5obj = h5utils.h5file(file)
             filteredTable = h5utils.process(h5obj)
+            h5obj.setGrid(filteredTable)
 
             pressure = h5obj.getPressure()
             grid = h5obj.getGrid()
@@ -35,6 +36,8 @@ class dataInitializer():
 
             h5files[loc] = h5obj
             loc+=1
+
+            np.savetxt("./output3/"+str(h5obj.getMolecule()+".csv"), h5obj.getGrid(), delimiter=",")
 
         save = os.path.join(outputDir, "h5files.npy")
         print("Saving results to disk to "+str(save))
