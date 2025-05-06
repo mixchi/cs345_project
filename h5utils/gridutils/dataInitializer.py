@@ -69,3 +69,18 @@ class dataInitializer():
         big3D = np.stack([grid for grid in Xtype_grids.values()], axis=0)
 
         return big3D
+
+    # load the npy data file as np array of h5file objects.
+    def loadh5(self, inputnpy):
+        h5array = np.load(inputnpy, allow_pickle=True)
+
+        return h5array
+
+    # TODO TBD
+    def splitnpy(self, inputnpy):
+        h5array = np.load(inputnpy, allow_pickle=True)
+
+        for h5obj in np.nditer(h5array, op_dtypes=['object']):
+            print(h5obj.getMolecule())
+        
+        # return h5array
