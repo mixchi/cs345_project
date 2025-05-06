@@ -38,8 +38,12 @@ param_values = grid_search.param_grid['C']
 
 **PLOT:
 (Plotting accuracy as a function of possible params, eg. C in the case of SVM)
-plt.figure(figsize=(8, 5))
-plt.plot(param_values, mean_scores, marker='o')
+plt.figure(figsize=(12, 7.5))
+plt.plot(param_values, mean_scores, marker='o', markersize=3)
+plt.title("Accuracy as a Function of C")
+plt.xlabel('Hyperparameter Value')
+plt.ylabel('Accuracy')
+plt.show()
 
 **Once the plot is created, take the best C value and evaluate accuracy:
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
@@ -68,8 +72,12 @@ print("Average Test Accuracy:", np.mean(test_accuracies))
 
 
 **Plot accuracy across folds:
-plt.figure(figsize=(8, 5))
-plt.plot(range(1, 6), train_accuracies, label='Train Accuracy', marker='o')
-plt.plot(range(1, 6), test_accuracies, label='Test Accuracy', marker='s')
+plt.figure(figsize=(12, 7.5))
+plt.plot(range(1, 6), train_accuracies, label='Train Accuracy', marker='o', markersize=3, color='blue')
+plt.plot(range(1, 6), test_accuracies, label='Test Accuracy', marker='o', markersize=3, color='green', linestyle='--')
+plt.title("Accuracy using Optimized Hyperparam as a function of folds")
+plt.xlabel('Folds')
+plt.ylabel('Accuracy')
 plt.grid(True)
+plt.legend()
 plt.show()
