@@ -67,8 +67,9 @@ class dataInitializer():
 
         # combine all molecule types from dictionary into a 3D grid
         big3D = np.stack([grid for grid in Xtype_grids.values()], axis=0)
+        moleculeLabels = np.array(list(Xtype_grids.keys()))
 
-        return big3D
+        return big3D, moleculeLabels
 
     # load the npy data file as np array of h5file objects.
     def loadh5(self, inputnpy):

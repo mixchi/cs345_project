@@ -15,7 +15,9 @@ if __name__ == "__main__":
 
     gridloader = h5utils.dataInitializer()
 
-    # load an np array of h5file objects
-    h5array = gridloader.loadh5(sys.argv[1])
+    # load the big 3D grid with labels
+    h5array, labels = gridloader.loadGrid(sys.argv[1])
 
-    print("Number of h5files: "+str(h5array.size))
+    print("Grid shape: "+str(h5array.shape))
+    print("Number of labels: "+str(labels.size))
+    print(labels)
