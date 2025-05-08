@@ -31,21 +31,37 @@ def regression_model (X, y):
     #LR: problematic if problem is non-linear
     #PF: performance could be poor
 
-    linreg = make_pipeline(LinearRegression(), Ridge(alpha=0.001))
-    ridge_model = make_pipeline(PolynomialFeatures(3), Ridge(alpha=0.01))
+    linreg = make_pipeline(LinearRegression(), Ridge(alpha=0.001), SimpleImputer(strategy='mean'))
+    #ridge_model = make_pipeline(PolynomialFeatures(3), Ridge(alpha=0.01))
 
-    linreg.fit(X, y)
-    poly_model.fit(X, y)
+    alphas = np.logspace(-4, 2, 20)
+    param_grid = {alphas}
 
-    y_pred_lin = linreg.predict(X_test)
-    y_pred_poly = ridge_model.fit(X_test)
+    grid = GridSearchCV(linreg, param_grid, cv=5, scoring='r2')
 
+    grid.fit(X_train, y_train)
+    #poly_model.fit(X_train, y_train)
+
+    #y_pred_lin = linreg.predict(X_test)
+    #y_pred_poly = ridge_model.fit(X_test)
+
+    best_model = grid.best_estimator_
+    y_pred = best_model.predict(X_test)
 
     #Examples of evaluation techniques, could use any or all
     mae = mean_absolute_error(y_test, y_pred)  # Mean Absolute Error
     mse = mean_squared_error(y_test, y_pred)
     rmse = np.sqrt(mse)  # Root Mean Squared Error
     r2 = r2_score(y_test, y_pred)  # R-squared
+
+    mean_test_scores = grid.cv_results_['mean_test_score']
+    plt.figure(figsize=(8, 5))
+    plt.semilogx(alphas, mean_test_scores, marker='o', markersize=3)
+    plt.xlabel('Alpha')
+    plt.ylabel('Accuracy')
+    plt.title('Alpha vs R2 Score')
+    plt.grid(True)
+    plt.show()
 
 #Example Plot
 plt.scatter(y_test, y_pred, alpha=0.5)
