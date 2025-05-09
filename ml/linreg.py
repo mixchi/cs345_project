@@ -27,10 +27,9 @@ class linreg():
 
     def genXy(self, molecule, height):
         moleculeIndex = self.getIndexOfMolecule(molecule)
-
-        y = np.rot90(self.grid[moleculeIndex, :, height], 1)
         
         X = np.rot90(self.grid[:, :, height], 1)
+        y = X[:, moleculeIndex]
         X = np.delete(X, moleculeIndex, 1)
 
         return X, y
@@ -39,7 +38,7 @@ class linreg():
         X, y = self.genXy(molecule, height)
         print(X.shape, y.shape)
 
-        print(y[:20])
+        print(y[~np.isnan(y)])
         print(X[:5, :])
 
         scaler = StandardScaler()
@@ -72,11 +71,11 @@ class linreg():
         plt.show()
         
         
-        #lr = LinearRegression()
-        #lr.fit(X_train, y_train)
+        lr = LinearRegression()
+        lr.fit(X_train, y_train)
 
-        #mae_test = mean_absolute_error(y_test, y_pred)
-        #print(f"MAE test: {mae_test}")s
+        mae_test = mean_absolute_error(y_test, y_pred)
+        print(f"MAE test: {mae_test}")s
 
     def __init__(self, inputnpy):
 
@@ -97,4 +96,4 @@ if (len(sys.argv) != 2):
 linreg = linreg(sys.argv[1])
 
 # usage: <molecule> <height level>
-linreg.linreg("N2O", 12)
+linreg.linreg("H2O", 12)
