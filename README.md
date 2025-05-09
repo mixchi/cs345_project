@@ -7,7 +7,7 @@
 * Input: directory that will be recursively searched for input files
 * Output: where a single .npy file will be saved (default filename h5files.npy)
 
-### Using pregenerated h5 npy matrix:
+### Running the analysis using a pregenerated h5 npy matrix:
 `python ml/linreg.py <input npy>`
 
 * Input: the file path of where the npy file was saved during the previous step
