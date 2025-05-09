@@ -29,8 +29,11 @@ class linreg():
         moleculeIndex = self.getIndexOfMolecule(molecule)
         
         X = np.rot90(self.grid[:, :, height], 1)
+        print(X[0])
+        print(moleculeIndex)
         y = X[:, moleculeIndex]
-        X = np.delete(X, moleculeIndex, 1)
+        print(y)
+        # X = np.delete(X, moleculeIndex, 1)
 
         return X, y
 
@@ -41,41 +44,41 @@ class linreg():
         print(y[~np.isnan(y)])
         print(X[:5, :])
 
-        scaler = StandardScaler()
-        X = scaler.fit_transform(X)
+        # scaler = StandardScaler()
+        # X = scaler.fit_transform(X)
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=5)
+        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=5)
 
 
-        linreg = make_pipeline(SimpleImputer(strategy='mean'), Ridge())
+        # linreg = make_pipeline(SimpleImputer(strategy='mean'), Ridge())
 
-        alphas = np.logspace(-4, 2, 20)
-        param_grid = {'ridge__alpha': alphas}
+        # alphas = np.logspace(-4, 2, 20)
+        # param_grid = {'ridge__alpha': alphas}
 
-        grid = GridSearchCV(linreg, param_grid, cv=5, scoring='r2')
+        # grid = GridSearchCV(linreg, param_grid, cv=5, scoring='r2')
 
-        grid.fit(X_train, y_train)
+        # grid.fit(X_train, y_train)
 
-        best_model = grid.best_estimator_
-        y_pred = best_model.predict(X_test)
+        # best_model = grid.best_estimator_
+        # y_pred = best_model.predict(X_test)
 
-        print(best_model)
+        # print(best_model)
 
-        mean_test_scores = grid.cv_results_['mean_test_score']
-        plt.figure(figsize=(8, 5))
-        plt.semilogx(alphas, mean_test_scores, marker='o', markersize=3)
-        plt.xlabel('Alpha')
-        plt.ylabel('Accuracy')
-        plt.title('Alpha vs R2 Score')
-        plt.grid(True)
-        plt.show()
+        # mean_test_scores = grid.cv_results_['mean_test_score']
+        # plt.figure(figsize=(8, 5))
+        # plt.semilogx(alphas, mean_test_scores, marker='o', markersize=3)
+        # plt.xlabel('Alpha')
+        # plt.ylabel('Accuracy')
+        # plt.title('Alpha vs R2 Score')
+        # plt.grid(True)
+        # plt.show()
         
         
-        lr = LinearRegression()
-        lr.fit(X_train, y_train)
+        # lr = LinearRegression()
+        # lr.fit(X_train, y_train)
 
-        mae_test = mean_absolute_error(y_test, y_pred)
-        print(f"MAE test: {mae_test}")s
+        # mae_test = mean_absolute_error(y_test, y_pred)
+        # print(f"MAE test: {mae_test}")
 
     def __init__(self, inputnpy):
 
@@ -96,4 +99,4 @@ if (len(sys.argv) != 2):
 linreg = linreg(sys.argv[1])
 
 # usage: <molecule> <height level>
-linreg.linreg("H2O", 12)
+linreg.linreg("N2O", 12)
