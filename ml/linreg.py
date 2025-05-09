@@ -42,14 +42,33 @@ class linreg():
         print(y[:20])
         print(X[:5, :])
 
+        mask = ~np.isnan(y).flatten()
+        X = X[mask]
+        y = y[mask]
+
+        non_nan_cols = ~np.isnan(X).all(axis=0)
+        X = X[:, non_nan_cols]
+
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=5)
 
+        linreg = make_pipeline(SimpleImputer(strategy='mean'), LinearRegression())
 
-        linreg = make_pipeline(SimpleImputer(strategy='mean'), Ridge())
+        linreg.fit(X_train, y_train)
 
+        y_pred = linreg.predict(X_test)
+
+        mae = mean_absolute_error(y_test, y_pred)  # Mean Absolute Error
+        mse = mean_squared_error(y_test, y_pred)
+        rmse = np.sqrt(mse)  # Root Mean Squared Error
+        r2 = r2_score(y_test, y_pred)  # R-squared
+
+        print(f"MAE: {mae:.15f}, RMSE: {rmse:.15f}, R²: {r2:.4f}")
+
+
+        '''
         alphas = np.logspace(-4, 2, 20)
         param_grid = {'ridge__alpha': alphas}
 
@@ -70,7 +89,10 @@ class linreg():
         plt.title('Alpha vs R2 Score')
         plt.grid(True)
         plt.show()
-        
+
+        for alpha, score in zip(alphas, mean_test_scores):
+            print(f"Alpha: {alpha:.5f} \t R² Score: {score:.5f}")
+'''  
         
         #lr = LinearRegression()
         #lr.fit(X_train, y_train)
@@ -97,4 +119,4 @@ if (len(sys.argv) != 2):
 linreg = linreg(sys.argv[1])
 
 # usage: <molecule> <height level>
-linreg.linreg("N2O", 12)
+linreg.linreg("BrO", 12)
