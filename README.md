@@ -1,12 +1,13 @@
-# cs345_project
-The CS345 Term Project
+# The CS345 Term Project
 
-## Preprocessing example:
-See the example.py file in the root.  It does two things:
-* find all files in the specified input directory
-* output filtered files to the output directory
-* save a npy data file of the preprocessing to the output directory for future use (so that preprocessing/filtering doesn't have to be run every time)
-* loads the npy data file back in as a 3D grid
+### Converting a series of input he5 (HDF) files to a single npy matrix file:
 
-Usage: `python example.py inputdir outputdir`
-Where inputdir contains all of the h5 files.
+`python datagen.py <input> <output>`
+
+* Input: directory that will be recursively searched for input files
+* Output: where a single .npy file will be saved (default filename h5files.npy)
+
+### Using pregenerated h5 npy matrix:
+`python ml/linreg.py <input npy>`
+
+* Input: the file path of where the npy file was saved during the previous step
